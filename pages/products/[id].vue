@@ -1,12 +1,22 @@
 <template>
-    <div>
-        <p>Product details for {{ id }}</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa a, reiciendis voluptate ex quae consequatur odio culpa quibusdam numquam modi.</p>
+    <div v-if="product">
+        <p>{{ product.title }}</p>
+        <p>{{ product.price }}</p>
+        <p>{{ product.id }}</p>
+    </div>
+    <div v-else>
+        <p>Loading...</p>
     </div>
 </template>
 
 <script setup>
+    import { useRoute } from '@nuxtjs/composition-api';
+
     const { id } = useRoute().params
+    const uri = 'https://fakestoreapi.com/products' + id;
+
+    //fetch the product
+    const {data: product} =await useFetch(uri);
     
     definePageMeta ({
         layout: 'products'
